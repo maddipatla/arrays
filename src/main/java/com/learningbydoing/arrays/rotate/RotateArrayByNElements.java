@@ -30,6 +30,11 @@ public final class RotateArrayByNElements {
 	}
 
 	/**
+	 * It is a Juggling algorithm implementation. Instead of moving one by one,
+	 * divide the array in different sets where number of sets is equal to GCD of n
+	 * (array length) and d(number of elements to be rotated) and move the elements
+	 * within sets.
+	 * 
 	 * <p>
 	 * Time complexity O(n).
 	 * </p>
