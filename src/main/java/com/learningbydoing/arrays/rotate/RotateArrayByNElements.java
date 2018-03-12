@@ -23,6 +23,10 @@ public final class RotateArrayByNElements {
 		int arrayDup[] = { 1, 2, 3, 4, 5, 6, 7 };
 		rotateUsingTempArray(arrayDup, 25);
 		LOGGER.info(Arrays.toString(arrayDup));
+
+		int arr[] = { 1, 2, 3, 4, 5, 6, 7 };
+		rotateUsingGCD(arr, 25);
+		LOGGER.info(Arrays.toString(arr));
 	}
 
 	/**
@@ -100,6 +104,48 @@ public final class RotateArrayByNElements {
 					array[j] = temp;
 			}
 		}
+	}
+
+	/**
+	 * <p>
+	 * Time complexity O(n).
+	 * </p>
+	 * Space complexity O(1).
+	 * 
+	 * @param array
+	 * @param numberOfElementsToRotate
+	 */
+	private static void rotateUsingGCD(int[] array, int numberOfElementsToRotate) {
+		if (areNumbersEqual(array.length, numberOfElementsToRotate))
+			return;
+
+		int rotateNElements = getValidNumberToRotate(array, numberOfElementsToRotate);
+		int arrayLength = array.length;
+		int j;
+		int k;
+		int temp;
+		for (int i = 0; i < getGCD(rotateNElements, arrayLength); i++) {
+			temp = array[i];
+
+			j = i;
+			while (true) {
+				k = j + rotateNElements;
+				if (k >= arrayLength)
+					k = k - arrayLength;
+				if (k == i)
+					break;
+				array[j] = array[k];
+				j = k;
+			}
+			array[j] = temp;
+		}
+	}
+
+	private static int getGCD(int numberOfElementsToBeRotated, int arraySize) {
+		if (arraySize == 0)
+			return numberOfElementsToBeRotated;
+
+		return getGCD(arraySize, numberOfElementsToBeRotated % arraySize);
 	}
 
 	/**
