@@ -3,30 +3,13 @@
  */
 package com.learningbydoing.arrays.rotate;
 
-import java.util.Arrays;
-import java.util.logging.Logger;
-
 /**
  * @author Maddipatla Chandra Babu
  * @date 09-Mar-2018
  */
-public final class RotateArrayByNElements {
-	private static final Logger LOGGER = Logger.getLogger(RotateArrayByNElements.class.getName());
+public final class ArrayRotationByNElements {
 
-	public static void main(String[] args) {
-		int array[] = { 1, 2, 3, 4, 5, 6, 7 };
-		int[] rotatedArray = rotateUsingNewArray(array, 25);
-		LOGGER.info(Arrays.toString(rotatedArray));
-		rotateArrayWithoutUsingExtraSpace(array, 25);
-		LOGGER.info(Arrays.toString(array));
-
-		int arrayDup[] = { 1, 2, 3, 4, 5, 6, 7 };
-		rotateUsingTempArray(arrayDup, 25);
-		LOGGER.info(Arrays.toString(arrayDup));
-
-		int arr[] = { 1, 2, 3, 4, 5, 6, 7 };
-		rotateUsingGCD(arr, 25);
-		LOGGER.info(Arrays.toString(arr));
+	private ArrayRotationByNElements() {
 	}
 
 	/**
@@ -39,7 +22,7 @@ public final class RotateArrayByNElements {
 	 * @param numberOfElementsToRotate
 	 * @return new rotated array
 	 */
-	private static int[] rotateUsingNewArray(int[] array, int numberOfElementsToRotate) {
+	public static int[] rotateUsingNewArray(int[] array, int numberOfElementsToRotate) {
 		if (areNumbersEqual(array.length, numberOfElementsToRotate))
 			return array;
 
@@ -64,7 +47,7 @@ public final class RotateArrayByNElements {
 	 * @param array
 	 * @param numberOfElementsToRotate
 	 */
-	private static void rotateUsingTempArray(int[] array, int numberOfElementsToRotate) {
+	public static void rotateUsingTempArray(int[] array, int numberOfElementsToRotate) {
 		if (areNumbersEqual(array.length, numberOfElementsToRotate))
 			return;
 
@@ -91,7 +74,7 @@ public final class RotateArrayByNElements {
 	 * @param array
 	 * @param numberOfElementsToRotate
 	 */
-	private static void rotateArrayWithoutUsingExtraSpace(int[] array, int numberOfElementsToRotate) {
+	public static void rotateArrayWithoutUsingExtraSpace(int[] array, int numberOfElementsToRotate) {
 		if (areNumbersEqual(array.length, numberOfElementsToRotate))
 			return;
 
@@ -120,7 +103,7 @@ public final class RotateArrayByNElements {
 	 * @param array
 	 * @param numberOfElementsToRotate
 	 */
-	private static void rotateUsingGCD(int[] array, int numberOfElementsToRotate) {
+	public static void rotateUsingGCD(int[] array, int numberOfElementsToRotate) {
 		if (areNumbersEqual(array.length, numberOfElementsToRotate))
 			return;
 
@@ -146,11 +129,55 @@ public final class RotateArrayByNElements {
 		}
 	}
 
+	/**
+	 * 
+	 * @param numberOfElementsToBeRotated
+	 * @param arraySize
+	 * @return GCD (Greatest common divisor)
+	 */
 	private static int getGCD(int numberOfElementsToBeRotated, int arraySize) {
 		if (arraySize == 0)
 			return numberOfElementsToBeRotated;
 
 		return getGCD(arraySize, numberOfElementsToBeRotated % arraySize);
+	}
+
+	/**
+	 * <p>
+	 * Time complexity O(d + n - d + n), where d is number of elements to be
+	 * rotated.
+	 * </p>
+	 * Space complexity O(1).
+	 * 
+	 * @param array
+	 * @param numberOfElementsToBeRotated
+	 */
+	public static void rotateArrayUsingReversalAlgorithm(int[] array, int numberOfElementsToBeRotated) {
+		if (areNumbersEqual(array.length, numberOfElementsToBeRotated))
+			return;
+		int rotateNElements = getValidNumberToRotate(array, numberOfElementsToBeRotated);
+		reverseArray(array, 0, rotateNElements - 1);
+		reverseArray(array, rotateNElements, array.length - 1);
+		reverseArray(array, 0, array.length - 1);
+	}
+
+	/**
+	 * @param array
+	 * @param startIndex
+	 * @param endIndex
+	 */
+	private static void reverseArray(int[] array, int startIndex, int endIndex) {
+		if (startIndex < 0 || endIndex >= array.length)
+			throw new ArrayIndexOutOfBoundsException(
+					"One of the indexes is out of bounds, which should be between 0 and " + (array.length - 1)
+							+ " but received startIndex: " + startIndex + " and endIndex: " + endIndex);
+		int temp;
+		while (startIndex < endIndex) {
+			temp = array[startIndex];
+			array[startIndex++] = array[endIndex];
+			array[endIndex] = temp;
+			endIndex--;
+		}
 	}
 
 	/**
